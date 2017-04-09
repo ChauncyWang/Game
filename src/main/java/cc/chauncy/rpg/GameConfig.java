@@ -27,11 +27,17 @@ public class GameConfig {
 
 	private GameConfig() {
 		images = new HashMap<Integer,Image>();
-		images.put(0,Tools.getImage("res/img/map/tile/ground.png", 6 * 32, 2 * 32, 32, 32));
-		images.put(1,Tools.getImage("res/img/map/tile/stone.png", 4 * 32, 3 * 32, 32, 32));
-		images.put(2,Tools.getImage("res/img/map/tile/stone.png", 4 * 32, 3 * 32, 32, 32));
-		images.put(3,Tools.getImage("res/img/map/tile/ground.png", 0 * 32, 13 * 32, 64, 64));
-		images.put(4,Tools.getImage("res/img/map/tile/stone.png", 0 * 32, 4 * 32, 32, 64));
-		images.put(5,Tools.getImage("res/img/map/tile/stone.png", 6 * 32, 8 * 32, 32, 32));
+		images.put(0,image("ground",6,2));
+		images.put(1,image("stone",6,3));
+		images.put(2,image("stone",4,3));
+		images.put(3,image("ground",0,13,2,2));
+		images.put(4,image("stone",0,4,1,2));
+		images.put(5,image("stone",6,8));
+	}
+	private Image image(String file,int x,int y,int w,int h){
+		return Tools.getImage("res/img/map/tile/"+file+".png", x * 32, y * 32, w*32, h*32);
+	}
+	private Image image(String file,int x,int y){
+		return image(file,x,y,1,1);
 	}
 }
