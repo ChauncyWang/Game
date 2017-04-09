@@ -2,23 +2,20 @@ package cc.chauncy.rpg;
 
 import cc.chauncy.rpg.util.Tools;
 
-import javax.imageio.ImageIO;
-import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
+ * 游戏配置
  * Created by chauncy on 17-4-9.
  */
 public class GameConfig {
 	private static GameConfig gameConfig = null;
-	public Image ground1;
-	public Image ground2;
-	public Image stone1;
-	public Image stone2;
-
+	private Map<Integer,Image> images;
+	public Image getImage(int id){
+		return images.get(id);
+	}
 	public static GameConfig getGameConfig() {
 		if (gameConfig == null) {
 			gameConfig = new GameConfig();
@@ -29,9 +26,12 @@ public class GameConfig {
 
 
 	private GameConfig() {
-		ground1 = Tools.getImage("res/img/map/tile/ground.png", 6 * 32, 2 * 32, 32, 32);
-		ground2 = Tools.getImage("res/img/map/tile/ground.png", 3 * 32, 7 * 32, 32, 32);
-		stone1 = Tools.getImage("res/img/map/tile/stone.png", 4 * 32, 3 * 32, 32, 32);
-		stone2 = Tools.getImage("res/img/map/tile/stone.png", 3 * 32, 7 * 32, 32, 32);
+		images = new HashMap<Integer,Image>();
+		images.put(0,Tools.getImage("res/img/map/tile/ground.png", 6 * 32, 2 * 32, 32, 32));
+		images.put(1,Tools.getImage("res/img/map/tile/stone.png", 4 * 32, 3 * 32, 32, 32));
+		images.put(2,Tools.getImage("res/img/map/tile/stone.png", 4 * 32, 3 * 32, 32, 32));
+		images.put(3,Tools.getImage("res/img/map/tile/ground.png", 0 * 32, 13 * 32, 64, 64));
+		images.put(4,Tools.getImage("res/img/map/tile/stone.png", 0 * 32, 4 * 32, 32, 64));
+		images.put(5,Tools.getImage("res/img/map/tile/stone.png", 6 * 32, 8 * 32, 32, 32));
 	}
 }
