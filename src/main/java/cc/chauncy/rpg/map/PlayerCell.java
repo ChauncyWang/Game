@@ -1,26 +1,24 @@
-package cc.chauncy.rpg;
+package cc.chauncy.rpg.map;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
 /**
- * Created by chauncy on 17-4-9.
+ * Created by chauncy on 17-4-10.
  */
-public class PlayerIcon extends JPanel {
+public class PlayerCell extends MapCell {
 	private int towards = 0;
 	private int index = 0;
 	private BufferedImage bi;
 	private boolean stop = true;
 
-
-	public PlayerIcon() {
-		this.setSize(64, 96);
+	public PlayerCell() {
+		super();
+		super.setW(1);
+		super.setH(2);
 		try {
 			bi = ImageIO.read(new File("res/img/player/player1.png"));
 		} catch (IOException e) {
@@ -29,11 +27,11 @@ public class PlayerIcon extends JPanel {
 	}
 
 	@Override
-	public void paint(Graphics graphics) {
-		super.paint(graphics);
+	public ImageIcon getIcon() {
 		int x = index / 4 % 4;
 		int y = towards;
-		graphics.drawImage(bi.getSubimage(x * 32, y * 48, 32, 48), 0, 0, 63, 96, this);
+		icon = new ImageIcon(bi.getSubimage(x * 32, y * 48, 32, 48));
+		return icon;
 	}
 
 	public void setTowards(int towards) {
@@ -41,7 +39,6 @@ public class PlayerIcon extends JPanel {
 		if (!stop) {
 			index++;
 		}
-		repaint();
 	}
 
 	public int getTowards() {
@@ -56,7 +53,5 @@ public class PlayerIcon extends JPanel {
 		this.stop = stop;
 		if (stop)
 			index = 0;
-
-		repaint();
 	}
 }

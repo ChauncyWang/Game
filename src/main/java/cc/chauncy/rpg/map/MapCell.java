@@ -1,5 +1,10 @@
 package cc.chauncy.rpg.map;
 
+import cc.chauncy.rpg.GameConfig;
+
+import javax.swing.*;
+import java.awt.*;
+
 /**
  * 每一个格子
  * Created by chauncy on 17-4-9.
@@ -7,15 +12,20 @@ package cc.chauncy.rpg.map;
 public class MapCell {
 	private int x;
 	private int y;
-	private int w=1;
-	private int h=1;
+	private int w = 1;
+	private int h = 1;
 	private int size = 32;
 	private int img;
+	protected ImageIcon icon;
 	private boolean real = true;
 
 	public MapCell() {
 	}
 
+
+	/////////////////////////////////
+	// Override
+	////////////////////////////////
 	@Override
 	public String toString() {
 		return "MapCell{" +
@@ -29,6 +39,9 @@ public class MapCell {
 				'}';
 	}
 
+	/////////////////////////////
+	// getter and setter
+	//////////////////////////////
 	public int getX() {
 		return x;
 	}
@@ -75,6 +88,7 @@ public class MapCell {
 
 	public void setImg(int img) {
 		this.img = img;
+		icon = GameConfig.getGameConfig().getIcon(img);
 	}
 
 	public boolean isReal() {
@@ -83,5 +97,9 @@ public class MapCell {
 
 	public void setReal(boolean real) {
 		this.real = real;
+	}
+
+	public ImageIcon getIcon() {
+		return icon;
 	}
 }

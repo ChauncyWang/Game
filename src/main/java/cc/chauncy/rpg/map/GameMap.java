@@ -10,7 +10,7 @@ import java.util.Arrays;
  * 游戏地图
  * Created by chauncy on 17-4-9.
  */
-public class GameMap extends JPanel{
+public class GameMap extends JPanel {
 	/**
 	 * 地图宽度,cell的数量
 	 */
@@ -32,41 +32,69 @@ public class GameMap extends JPanel{
 	 */
 	private MapCell[] cells;
 
-	private int size = 100;
+	private int size = 32;
 
-	private Image image;
+	private ImageIcon[][] icons;
+
+	private PlayerCell player = new PlayerCell();
 
 	public GameMap() {
 		super();
 		this.setVisible(true);
+		player.setX(2);
+		player.setY(2);
+	}
+
+	// h w->
+	// |
+	// V
+	public void load() {
+		this.setSize((10 + 2) * size, (10 + 2) * size);
+
+		icons = new ImageIcon[w + 2][];
+		for (int i = 0; i < w + 2; ++i) {
+			icons[i] = new ImageIcon[h + 2];
+			for (int j = 0; j < h + 2; ++j) {
+				icons[i][j] = null;
+				if (i == 0 || j == 0 || i == w + 1 || j == h + 1) {
+					icons[i][j] = GameConfig.getGameConfig().getIcon(borderImg);
+				}
+			}
+		}
+
+		for (MapCell cell : cells) {
+			icons[cell.getX()][cell.getY()] = cell.getIcon();
+		}
+		icons[player.getX()][player.getY()] = player.getIcon();
+		repaint();
 	}
 
 	///////////////////////////////////////
 	/// Override
-	//////////////////////////////////////
-
-	public void load() {
-		this.setSize((10+2)*size,(10+2)*size);
-		repaint();
-	}
-
+	///////////////////////////////////////
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
-		for(int i = 0; i < w +2; ++i){
-			for(int j = 0; j < h +2; ++j){
-				g.drawImage(GameConfig.getGameConfig().getImage(ground),i*size,j*size,size,size,this);
-				if(i==0||j==0||i== w +1){
-					g.drawImage(GameConfig.getGameConfig().getImage(borderImg),i*size,j*size,size,size,this);
-				}
+		for (int i = 0; i < w + 2; ++i) {
+			for (int j = 0; j < h + 2; ++j) {
+				g.drawImage(GameConfig.getGameConfig().getIcon(ground).getImage(), i * size, j * size, size, size, this);
 			}
 		}
-		for(MapCell cell:cells){
-			g.drawImage(GameConfig.getGameConfig().getImage(cell.getImg()),
-					cell.getX()*size,cell.getY()*size,cell.getW()*size,cell.getH()*size,this);
-		}
-		for(int i = 0; i < w +2; ++i ){
-			g.drawImage(GameConfig.getGameConfig().getImage(borderImg),i*size,(h +1)*size,size,size,this);
+		for (int i = 0; i < w + 2; ++i) {
+			for (int j = 0; j < h + 2; ++j) {
+				ImageIcon icon = icons[i][j];
+				if (icon != null) {
+					int var1 = i * size;
+					int var2 = j * size;
+					int var3 = icon.getIconWidth();
+					int var4 = icon.getIconHeight();
+					if (var3 == 32 && var4 == 64) {
+						var2 -= size;
+					}
+					Image image = icon.getImage();
+					g.drawImage(image, var1, var2, var3, var4, this);
+				}
+			}
 		}
 	}
 
@@ -80,6 +108,7 @@ public class GameMap extends JPanel{
 				", cells=" + Arrays.toString(cells) +
 				'}';
 	}
+
 	///////////////////////////////////////
 	/// getter and setter
 	//////////////////////////////////////

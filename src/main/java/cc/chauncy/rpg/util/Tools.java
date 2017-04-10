@@ -1,6 +1,7 @@
 package cc.chauncy.rpg.util;
 
 import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -21,7 +22,7 @@ public class Tools {
 	 * @param h    图片的高度
 	 * @return 截取到的图片
 	 */
-	public static Image getImage(String file, int x, int y, int w, int h) {
+	public static ImageIcon getIcon(String file, int x, int y, int w, int h) {
 		BufferedImage bi;
 		try {
 			bi = ImageIO.read(new File(file));
@@ -29,6 +30,6 @@ public class Tools {
 			return null;
 		}
 		Image image = bi.getSubimage(x, y, w, h);
-		return image;
+		return new ImageIcon(image);
 	}
 }
