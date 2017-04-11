@@ -2,12 +2,13 @@ package cc.chauncy.rpg.entity;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.Serializable;
 
 /**
  * 图块
  * Created by Chauncy on 2017/4/11.
  */
-public class Tile {
+public class Tile implements Serializable {
 	/**
 	 * 图块的大小
 	 */
@@ -15,22 +16,18 @@ public class Tile {
 	/**
 	 * 块通行
 	 */
-	private boolean blockPassable;
+	private boolean blockPassable = true;
 	/**
 	 * 四方 通行
 	 */
-	private boolean LPassable;
-	private boolean RPassable;
-	private boolean UPassable;
-	private boolean DPassable;
+	private boolean LPassable = true;
+	private boolean RPassable = true;
+	private boolean UPassable = true;
+	private boolean DPassable = true;
 	/**
-	 * 绘制优先级
+	 * 绘制优先级,0最高
 	 */
-	private short priority;
-	/**
-	 * 块的图标
-	 */
-	private ImageIcon icon;
+	private short priority = 0;
 
 	public Tile() {
 	}
@@ -107,11 +104,4 @@ public class Tile {
 		this.priority = priority;
 	}
 
-	public ImageIcon getIcon() {
-		return icon;
-	}
-
-	public void setIcon(ImageIcon icon) {
-		this.icon = icon;
-	}
 }
