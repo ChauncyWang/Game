@@ -1,6 +1,5 @@
 package cc.chauncy.rpg.entity;
 
-import javax.swing.*;
 import java.awt.*;
 import java.io.Serializable;
 
@@ -12,7 +11,7 @@ public class Tile implements Serializable {
 	/**
 	 * 图块的大小
 	 */
-	public static int size = 64;
+	private transient static int size = 64;
 	/**
 	 * 块通行
 	 */
@@ -28,6 +27,10 @@ public class Tile implements Serializable {
 	 * 绘制优先级,0最高
 	 */
 	private short priority = 0;
+	/**
+	 * 图块的image
+	 */
+	private transient Image img;
 
 	public Tile() {
 	}
@@ -104,4 +107,11 @@ public class Tile implements Serializable {
 		this.priority = priority;
 	}
 
+	public Image getImg() {
+		return img;
+	}
+
+	public void setImg(Image img) {
+		this.img = img;
+	}
 }

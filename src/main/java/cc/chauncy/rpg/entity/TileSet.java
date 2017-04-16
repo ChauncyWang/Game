@@ -22,6 +22,21 @@ public class TileSet implements Serializable {
 	public TileSet() {
 	}
 
+	public void loadImg() {
+		try {
+			image = ImageIO.read(new File(imgFile));
+			w = image.getWidth() / 32;
+			h = image.getHeight() / 32;
+			for (int i = 0; i < h; ++i) {
+				for (int j = 0; j < w; ++j) {
+					tiles[i][j].setImg(image.getSubimage(j * 32, i * 32, 32, 32));
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 	public int getId() {
 		return id;
 	}
@@ -44,17 +59,13 @@ public class TileSet implements Serializable {
 
 	public void setImgFile(String imgFile) {
 		this.imgFile = imgFile;
-		try {
-			image = ImageIO.read(new File(imgFile));
-			w = image.getWidth() / 32;
-			h = image.getHeight() / 32;
-			tiles = new Tile[h][w];
-			for (int i = 0; i < h; ++i)
-				for (int j = 0; j < w; ++j)
-					tiles[i][j] = new Tile();
-		} catch (IOException e) {
-			e.printStackTrace();
+		tiles = new Tile[h][w];
+		for (int i = 0; i < h; ++i) {
+			for (int j = 0; j < w; ++j) {
+				tiles[i][j] = new Tile();
+			}
 		}
+		loadImg();
 	}
 
 	public Tile[][] getTiles() {

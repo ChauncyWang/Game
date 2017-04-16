@@ -24,7 +24,18 @@ public class TileTool extends JFrame implements MouseListener, ActionListener {
 	private File file;
 
 	public static void main(String[] args) {
-		new TileTool("res/ground.map");
+		try {
+			UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
+			new TileTool("res/ground.map");
+		} catch (ClassNotFoundException e) {
+
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (UnsupportedLookAndFeelException e) {
+			e.printStackTrace();
+		}
 	}
 
 
@@ -34,6 +45,7 @@ public class TileTool extends JFrame implements MouseListener, ActionListener {
 		if (file.exists()) {
 			try {
 				tileSet = (TileSet) new ObjectInputStream(new FileInputStream(file)).readObject();
+				tileSet.loadImg();
 			} catch (IOException e) {
 				e.printStackTrace();
 			} catch (ClassNotFoundException e) {
@@ -44,6 +56,7 @@ public class TileTool extends JFrame implements MouseListener, ActionListener {
 			tileSet.setId(1);
 			tileSet.setName("ground");
 			tileSet.setImgFile("res/img/tile/ground.png");
+			tileSet.loadImg();
 		}
 		imageAll.setIcon(new ImageIcon(tileSet.getImgFile()));
 		imageAll.addMouseListener(this);
@@ -67,10 +80,10 @@ public class TileTool extends JFrame implements MouseListener, ActionListener {
 		if (actionEvent.getActionCommand().equals("saveAll")) {
 			try {
 				new ObjectOutputStream(new FileOutputStream(file)).writeObject(tileSet);
+				System.out.println("保存成功!");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			System.out.println("保存成功!");
 		}
 	}
 
@@ -101,13 +114,8 @@ public class TileTool extends JFrame implements MouseListener, ActionListener {
 		graphics.drawRect(mouseX * 32, mouseY * 32, 32, 32);
 		graphics.dispose();
 		//画个选中的图像
-		Image image = ((ImageIcon) imageAll.getIcon()).getImage();
-		BufferedImage bufImg = new BufferedImage(image.getWidth(null),
-				image.getHeight(null), BufferedImage.TYPE_INT_ARGB);
-		Graphics g = bufImg.createGraphics();
-		g.drawImage(image, 0, 0, null);
-		g.dispose();
-		image = bufImg.getSubimage(32 * mouseX, 32 * mouseY, 32, 32).getScaledInstance(imageChoice.getWidth(), imageChoice.getHeight(), Image.SCALE_DEFAULT);
+		Image image = tileSet.getTiles()[mouseY][mouseX].getImg()
+				.getScaledInstance(imageChoice.getWidth(), imageChoice.getHeight(), Image.SCALE_DEFAULT);
 		imageChoice.setIcon(new ImageIcon(image));
 
 		repaint();
@@ -157,7 +165,6 @@ public class TileTool extends JFrame implements MouseListener, ActionListener {
 
 		//======== this ========
 		setResizable(false);
-		setSize(new Dimension(400, 300));
 		Container contentPane = getContentPane();
 		setVisible(true);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -168,7 +175,8 @@ public class TileTool extends JFrame implements MouseListener, ActionListener {
 			mainSplitPane.setBorder(new LineBorder(Color.red, 2));
 			mainSplitPane.setLayout(null);
 			mainSplitPane.setSize(new Dimension(400, 300));
-
+			mainSplitPane.setLocation(0, 0);
+			setSize(mainSplitPane.getSize());
 			//======== leftPanel ========
 			{
 				leftPanel.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);

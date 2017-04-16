@@ -19,9 +19,9 @@ public class GameFrame extends JFrame{
 		this.setLayout(null);
 		GameMap map = JSONTools.getGameMap("res/map1.json");
 		System.out.println(map);
-		map.load();
-		this.add(map);
-		this.setSize(map.getWidth(),map.getHeight());
+		//map.load();
+		//this.add(map);
+		//this.setSize(map.getWidth(),map.getHeight());
 		//this.add(playerIcon);
 		//this.addKeyListener(this);
 	}
