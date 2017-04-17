@@ -15,20 +15,32 @@ public class TileSet implements Serializable {
 	private String name;
 	private String imgFile;
 	private transient BufferedImage image;
-	private transient int w;
-	private transient int h;
+	private int w;
+	private int h;
 	private Tile[][] tiles;
 
 	public TileSet() {
 	}
 
-	public void loadImg() {
+	/**
+	 * 加载图像 为每个tile设置图像
+	 */
+	public void loadImage() {
 		try {
 			image = ImageIO.read(new File(imgFile));
 			w = image.getWidth() / 32;
 			h = image.getHeight() / 32;
+			if(tiles==null){
+				tiles = new Tile[h][];
+			}
 			for (int i = 0; i < h; ++i) {
+				if(tiles[i]==null){
+					tiles[i] = new Tile[w];
+				}
 				for (int j = 0; j < w; ++j) {
+					if(tiles[i][j]==null){
+						tiles[i][j] = new Tile();
+					}
 					tiles[i][j].setImg(image.getSubimage(j * 32, i * 32, 32, 32));
 				}
 			}
@@ -37,6 +49,9 @@ public class TileSet implements Serializable {
 		}
 	}
 
+	///////////////////////////////////////////
+	/// getter and setter
+	//////////////////////////////////////////
 	public int getId() {
 		return id;
 	}
@@ -59,13 +74,6 @@ public class TileSet implements Serializable {
 
 	public void setImgFile(String imgFile) {
 		this.imgFile = imgFile;
-		tiles = new Tile[h][w];
-		for (int i = 0; i < h; ++i) {
-			for (int j = 0; j < w; ++j) {
-				tiles[i][j] = new Tile();
-			}
-		}
-		loadImg();
 	}
 
 	public Tile[][] getTiles() {

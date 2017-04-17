@@ -9,10 +9,6 @@ import java.io.Serializable;
  */
 public class Tile implements Serializable {
 	/**
-	 * 图块的大小
-	 */
-	private transient static int size = 64;
-	/**
 	 * 块通行
 	 */
 	private boolean blockPassable = true;
@@ -51,14 +47,6 @@ public class Tile implements Serializable {
 	///////////////////////
 	// getter and setter
 	//////////////////////
-	public static int getSize() {
-		return size;
-	}
-
-	public static void setSize(int size) {
-		Tile.size = size;
-	}
-
 	public boolean isBlockPassable() {
 		return blockPassable;
 	}

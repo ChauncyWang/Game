@@ -1,5 +1,6 @@
 package cc.chauncy.rpg.Tools;
 
+import cc.chauncy.rpg.entity.Tile;
 import cc.chauncy.rpg.entity.TileSet;
 
 import java.awt.*;
@@ -25,28 +26,64 @@ public class GUISaveTileSet extends JFrame {
 		new GUISaveTileSet();
 	}
 
+	/**
+	 * 保存TileSet
+	 */
 	private TileSet tileSet = null;
+	/**
+	 * 整个图片
+	 */
 	private BufferedImage bi = null;
+	/**
+	 * 鼠标点击的位置,求对32的倍数 可以直接在tileset数组中当下标使用
+	 */
 	private int mouseX = -1;
 	private int mouseY = -1;
-
+	/**
+	 * 鼠标点击的tile
+	 */
+	private Tile tileSelected;
+	/**
+	 * 是否为png,不是png就是map
+	 */
+	private boolean isPNG;
 	public GUISaveTileSet() {
 		initComponents();
 	}
 
+	/**
+	 * imageAll 标签点击
+	 * @param e mouseEvent
+	 */
 	private void imageAllMouseClicked(MouseEvent e) {
 		// TODO add your code here
 		mouseX = e.getX() / 32;
 		mouseY = e.getY() / 32;
+		tileSelected = tileSet.getTiles()[mouseY][mouseX];
+
+		sliderPriority.setValue(tileSelected.getPriority());
+		radioButtonPassable.setSelected(tileSelected.isBlockPassable());
+		checkBoxD.setSelected(tileSelected.isDPassable());
+		checkBoxU.setSelected(tileSelected.isUPassable());
+		checkBoxL.setSelected(tileSelected.isLPassable());
+		checkBoxR.setSelected(tileSelected.isRPassable());
+		labelX.setText("X:"+mouseX);
+		labelY.setText("Y:"+mouseY);
+
 		repaint();
 	}
 
+	/**
+	 * 优先级改变时
+	 */
 	private void sliderPriorityStateChanged() {
-		// TODO add your code here
+		int priority = sliderPriority.getValue();
+		tileSelected.setPriority((short) priority);
 	}
 
 	private void radioButtonPassableStateChanged() {
-		// TODO add your code here
+		boolean selected = radioButtonPassable.isSelected();
+		tileSelected.setBlockPassable(selected);
 	}
 
 	private void checkBoxUStateChanged() {
@@ -69,8 +106,12 @@ public class GUISaveTileSet extends JFrame {
 		// TODO add your code here
 	}
 
+	/**
+	 * 打开文件按钮点击时
+	 */
 	private void buttonOpenActionPerformed() {
 		// TODO add your code here
+		setFocusable(false);
 		JFileChooser chooser = new JFileChooser();
 		chooser.setCurrentDirectory(new File("."));
 		chooser.setFileFilter(new FileFilter() {
@@ -95,13 +136,14 @@ public class GUISaveTileSet extends JFrame {
 				tileSet = new TileSet();
 				tileSet.setId(1);
 				tileSet.setImgFile(file.getAbsolutePath());
-				tileSet.loadImg();
+				tileSet.loadImage();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		} else {
 
 		}
+		setFocusable(true);
 	}
 
 	@Override

@@ -4,6 +4,8 @@ import cc.chauncy.rpg.entity.TileSet;
 import cc.chauncy.rpg.util.JSONTools;
 import org.junit.Test;
 
+import java.io.*;
+
 /**
  * 测试类
  * Created by chauncy on 17-4-11.
@@ -11,7 +13,13 @@ import org.junit.Test;
 public class MyTest {
 	@Test
 	public void test() {
-		TileSet tileSet = JSONTools.getTileSet("res/001.json");
-		System.out.println(tileSet.getTiles().length + "-" + tileSet.getTiles()[0].length);
+		try {
+			ObjectInputStream oos = new ObjectInputStream(new FileInputStream(new File("1.obj")));
+			TileSet tileSet = (TileSet) oos.readObject();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
 }
