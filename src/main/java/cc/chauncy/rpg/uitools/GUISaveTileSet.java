@@ -1,4 +1,4 @@
-package cc.chauncy.rpg.Tools;
+package cc.chauncy.rpg.uitools;
 
 import cc.chauncy.rpg.entity.Tile;
 import cc.chauncy.rpg.entity.TileSet;
